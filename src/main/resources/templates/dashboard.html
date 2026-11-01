@@ -3,8 +3,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Perpustakaan</title>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -18,8 +24,33 @@
             padding: 24px 40px;
         }
 
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        header p {
+            margin: 8px 0 0;
+            color: #dbeafe;
+        }
+
         main {
+            max-width: 1200px;
+            margin: auto;
             padding: 40px;
+        }
+
+        .intro {
+            margin-bottom: 30px;
+        }
+
+        .intro h2 {
+            margin-bottom: 8px;
+            color: #1d3a7c;
+        }
+
+        .intro p {
+            color: #64748b;
         }
 
         .cards {
@@ -35,25 +66,52 @@
             text-decoration: none;
             color: #263445;
             box-shadow: 0 3px 12px #00000010;
-            transition: 0.2s;
+            transition: 0.2s ease;
+            border: 1px solid #edf0f5;
         }
 
         .card:hover {
             transform: translateY(-4px);
+            box-shadow: 0 7px 18px #00000015;
         }
 
         .card h2 {
             color: #1d3a7c;
+            margin-top: 0;
+            font-size: 20px;
         }
 
         .card p {
             color: #64748b;
-            line-height: 1.5;
+            line-height: 1.6;
+            min-height: 48px;
         }
 
         .card span {
             color: #1d3a7c;
             font-weight: bold;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13px;
+            padding: 20px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 22px;
+            }
+
+            main {
+                padding: 25px 20px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -66,31 +124,49 @@
 </header>
 
 <main>
-    <h2>Dashboard</h2>
-    <p>Selamat datang! Silakan pilih menu yang ingin kamu akses.</p>
+
+    <div class="intro">
+        <h2>Dashboard</h2>
+        <p>Selamat datang! Silakan pilih menu yang ingin kamu akses.</p>
+    </div>
 
     <div class="cards">
 
-        <a href="/buku" class="card">
+        <!-- Menu Data Buku -->
+        <a th:href="@{/buku}" class="card">
             <h2>Data Buku</h2>
-            <p>Kelola koleksi buku dan informasi ketersediaan stok.</p>
+            <p>Kelola koleksi buku dan lihat informasi ketersediaan buku di perpustakaan.</p>
             <span>Kelola Buku →</span>
         </a>
 
-        <a href="/anggota" class="card">
+        <!-- Menu Data Anggota -->
+        <a th:href="@{/anggota}" class="card">
             <h2>Data Anggota</h2>
-            <p>Lihat dan kelola informasi anggota perpustakaan.</p>
+            <p>Lihat dan kelola informasi anggota yang terdaftar di perpustakaan.</p>
             <span>Kelola Anggota →</span>
         </a>
 
-        <a href="/pinjam" class="card">
+        <!-- Menu Peminjaman -->
+        <a th:href="@{/pinjam}" class="card">
             <h2>Peminjaman</h2>
             <p>Lakukan transaksi peminjaman buku dan lihat bukti transaksi.</p>
             <span>Pinjam Buku →</span>
         </a>
 
+        <!-- Menu Kelola Stok -->
+        <a th:href="@{/stok}" class="card">
+            <h2>Kelola Stok Buku</h2>
+            <p>Atur persediaan buku dengan menambahkan atau mengurangi jumlah stok.</p>
+            <span>Kelola Stok →</span>
+        </a>
+
     </div>
+
 </main>
+
+<footer>
+    Sistem Informasi Manajemen Perpustakaan
+</footer>
 
 </body>
 </html>

@@ -26,3 +26,20 @@ CREATE TABLE transaksi_pinjam (
         FOREIGN KEY (id_buku)
         REFERENCES buku(id_buku)
 );
+
+-- Tabel untuk menyimpan pengajuan reservasi buku
+CREATE TABLE reservasi (
+    id_reservasi VARCHAR(36) PRIMARY KEY,
+    id_anggota VARCHAR(10) NOT NULL,
+    id_buku VARCHAR(10) NOT NULL,
+    tanggal_reservasi DATE NOT NULL,
+    status VARCHAR(30) NOT NULL,
+
+    CONSTRAINT fk_reservasi_anggota
+        FOREIGN KEY (id_anggota)
+        REFERENCES anggota(id_anggota),
+
+    CONSTRAINT fk_reservasi_buku
+        FOREIGN KEY (id_buku)
+        REFERENCES buku(id_buku)
+);

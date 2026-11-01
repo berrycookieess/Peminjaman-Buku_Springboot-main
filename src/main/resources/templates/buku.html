@@ -60,6 +60,21 @@
             color: white;
         }
 
+        .page-heading {
+            margin-bottom: 25px;
+        }
+
+        .page-heading h2 {
+            margin: 0 0 10px;
+            color: #263445;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
         .card {
             background: white;
             padding: 25px;
@@ -101,17 +116,19 @@
         table {
             width: 100%;
             border-collapse: collapse;
+            text-align: left;
         }
 
         th, td {
             padding: 15px 16px;
-            text-align: left;
             border-bottom: 1px solid #e5eaf2;
+            font-size: 14px;
         }
 
         th {
             background: #f4f6fa;
             color: #1d3a7c;
+            font-weight: bold;
         }
 
         tbody tr:hover td {
@@ -129,8 +146,9 @@
         }
 
         .empty {
+            text-align: center;
             color: #64748b;
-            padding: 15px 0;
+            padding: 25px;
         }
 
         @media (max-width: 600px) {
@@ -158,8 +176,10 @@
 
 <main>
 
-    <h2>Data Buku</h2>
-    <p>Kelola koleksi buku dan informasi ketersediaan stok.</p>
+    <div class="page-heading">
+        <h2>Data Buku</h2>
+        <p>Kelola koleksi buku dan informasi ketersediaan stok.</p>
+    </div>
 
     <nav class="navigation">
         <a th:href="@{/}">Dashboard</a>
@@ -177,10 +197,6 @@
                 + Tambah Buku
             </a>
         </div>
-
-        <p class="empty" th:if="${#lists.isEmpty(daftarBuku)}">
-            Belum ada buku yang tersedia.
-        </p>
 
         <table th:unless="${#lists.isEmpty(daftarBuku)}">
             <thead>
@@ -201,6 +217,10 @@
                 </tr>
             </tbody>
         </table>
+
+        <p class="empty" th:if="${#lists.isEmpty(daftarBuku)}">
+            Belum ada buku yang tersedia.
+        </p>
 
     </section>
 

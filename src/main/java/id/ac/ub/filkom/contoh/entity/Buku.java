@@ -1,4 +1,3 @@
-
 package id.ac.ub.filkom.contoh.entity;
 
 import jakarta.persistence.Column;
@@ -6,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-/** Entity: objek data yang dipetakan ke tabel "buku". */
 @Entity
 @Table(name = "buku")
 public class Buku {
@@ -21,7 +19,8 @@ public class Buku {
     @Column(name = "stok")
     private int stok;
 
-    protected Buku() { }
+    protected Buku() {
+    }
 
     public Buku(String idBuku, String judul, int stok) {
         this.idBuku = idBuku;
@@ -29,20 +28,52 @@ public class Buku {
         this.stok = stok;
     }
 
-    /** Memeriksa apakah stok buku masih tersedia. */
     public boolean cekStok() {
         return stok > 0;
     }
 
-    /** Mengurangi stok buku sebanyak satu. */
-    public void kurangiStok() {
-        if (stok <= 0) {
-            throw new IllegalStateException("Stok sudah habis");
+    // Menambahkan stok buku
+    public void tambahStok(int jumlah) {
+        if (jumlah <= 0) {
+            throw new IllegalArgumentException(
+                "Jumlah penambahan harus lebih dari 0"
+            );
         }
-        stok--;
+
+        stok += jumlah;
     }
 
-    public String getIdBuku() { return idBuku; }
-    public String getJudul()  { return judul; }
-    public int getStok()      { return stok; }
+    // Mengurangi stok berdasarkan jumlah yang dimasukkan
+    public void kurangiStok(int jumlah) {
+        if (jumlah <= 0) {
+            throw new IllegalArgumentException(
+                "Jumlah pengurangan harus lebih dari 0"
+            );
+        }
+
+        if (jumlah > stok) {
+            throw new IllegalStateException(
+                "Pengurangan melebihi stok yang tersedia"
+            );
+        }
+
+        stok -= jumlah;
+    }
+
+    // Digunakan oleh proses peminjaman yang sudah ada
+    public void kurangiStok() {
+        kurangiStok(1);
+    }
+
+    public String getIdBuku() {
+        return idBuku;
+    }
+
+    public String getJudul() {
+        return judul;
+    }
+
+    public int getStok() {
+        return stok;
+    }
 }

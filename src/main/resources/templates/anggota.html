@@ -8,79 +8,88 @@
 
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
         }
 
         body {
-            background-color: #f4f6fa;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6fa;
             color: #263445;
         }
 
         header {
-            background-color: #1d3a7c;
+            background: #1d3a7c;
             color: white;
-            padding: 24px 8%;
+            padding: 24px 40px;
         }
 
         header h1 {
-            font-size: 26px;
-            margin-bottom: 6px;
+            margin: 0 0 10px;
         }
 
         header p {
+            margin: 0;
             font-size: 14px;
-            opacity: 0.85;
-        }
-
-        nav {
-            background-color: white;
-            padding: 15px 8%;
-            display: flex;
-            gap: 28px;
-            border-bottom: 1px solid #e5e9f0;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #526176;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        nav a:hover,
-        nav a.active {
-            color: #1d3a7c;
         }
 
         main {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 24px;
+            padding: 40px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: #1d3a7c;
+            font-weight: bold;
+            padding: 10px 16px;
+            background: white;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .navigation a:hover,
+        .navigation a.active {
+            background: #1d3a7c;
+            color: white;
         }
 
         .page-heading {
-            margin-bottom: 24px;
+            margin-bottom: 25px;
         }
 
         .page-heading h2 {
-            font-size: 24px;
-            margin-bottom: 8px;
+            margin: 0 0 10px;
+            color: #263445;
         }
 
         .page-heading p {
-            color: #778397;
+            margin: 0;
+            color: #64748b;
             font-size: 14px;
         }
 
-        .table-card {
+        .card {
             background: white;
+            padding: 25px;
             border-radius: 12px;
-            padding: 28px;
-            box-shadow: 0 3px 15px rgba(29, 58, 124, 0.06);
+            box-shadow: 0 3px 12px #00000010;
             overflow-x: auto;
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            color: #1d3a7c;
+            margin: 0;
         }
 
         table {
@@ -89,52 +98,43 @@
             text-align: left;
         }
 
-        th {
-            background-color: #f4f6fa;
-            color: #526176;
-            font-size: 13px;
-            font-weight: 600;
-            padding: 16px;
-        }
-
-        td {
-            padding: 17px 16px;
-            border-bottom: 1px solid #edf0f5;
+        th, td {
+            padding: 15px 16px;
+            border-bottom: 1px solid #e5eaf2;
             font-size: 14px;
         }
 
-        tbody tr:hover {
-            background-color: #fafbfe;
+        th {
+            background: #f4f6fa;
+            color: #1d3a7c;
+            font-weight: bold;
+        }
+
+        tbody tr:hover td {
+            background: #f8faff;
         }
 
         .member-id {
             color: #1d3a7c;
-            font-weight: 600;
+            font-weight: bold;
         }
 
-        .empty-state {
+        .empty {
             text-align: center;
-            padding: 35px 15px;
-            color: #778397;
+            color: #64748b;
+            padding: 25px;
         }
 
         @media (max-width: 600px) {
             header {
-                padding: 22px 6%;
-            }
-
-            nav {
-                padding: 14px 6%;
-                gap: 18px;
-                flex-wrap: wrap;
+                padding: 22px 20px;
             }
 
             main {
-                margin: 28px auto;
-                padding: 0 16px;
+                padding: 24px 16px;
             }
 
-            .table-card {
+            .card {
                 padding: 18px;
             }
         }
@@ -148,20 +148,26 @@
     <p>Sistem Informasi Manajemen Perpustakaan</p>
 </header>
 
-<nav>
-    <a href="/">Dashboard</a>
-    <a href="/buku">Data Buku</a>
-    <a href="/anggota" class="active">Data Anggota</a>
-    <a href="/pinjam">Peminjaman</a>
-</nav>
-
 <main>
+
     <div class="page-heading">
         <h2>Data Anggota</h2>
         <p>Informasi anggota yang terdaftar dalam sistem perpustakaan.</p>
     </div>
 
-    <div class="table-card">
+    <nav class="navigation">
+        <a th:href="@{/}">Dashboard</a>
+        <a th:href="@{/buku}">Data Buku</a>
+        <a th:href="@{/anggota}" class="active">Data Anggota</a>
+        <a th:href="@{/pinjam}">Peminjaman</a>
+    </nav>
+
+    <section class="card">
+
+        <div class="card-header">
+            <h2>Daftar Anggota</h2>
+        </div>
+
         <table>
             <thead>
                 <tr>
@@ -173,19 +179,22 @@
 
             <tbody>
                 <tr th:each="anggota : ${daftarAnggota}">
-                    <td class="member-id" th:text="${anggota.idAnggota}"></td>
+                    <td class="member-id"
+                        th:text="${anggota.idAnggota}"></td>
                     <td th:text="${anggota.nama}"></td>
                     <td th:text="${anggota.batasPinjam}"></td>
                 </tr>
 
                 <tr th:if="${#lists.isEmpty(daftarAnggota)}">
-                    <td colspan="3" class="empty-state">
+                    <td colspan="3" class="empty">
                         Belum ada data anggota yang terdaftar.
                     </td>
                 </tr>
             </tbody>
         </table>
-    </div>
+
+    </section>
+
 </main>
 
 </body>

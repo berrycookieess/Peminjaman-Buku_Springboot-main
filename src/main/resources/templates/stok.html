@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kelola Stok Buku</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6fa;
+            color: #263445;
+        }
+
+        header {
+            background: #1d3a7c;
+            color: white;
+            padding: 22px 40px;
+        }
+
+        header h2 {
+            margin: 0;
+        }
+
+        nav {
+            margin-top: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-right: 22px;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            margin-bottom: 25px;
+        }
+
+        h3 {
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 14px;
+            border-bottom: 1px solid #e5e9f0;
+            text-align: left;
+        }
+
+        th {
+            background: #f4f6fa;
+        }
+
+        input {
+            padding: 9px;
+            width: 85px;
+            border: 1px solid #ccd3df;
+            border-radius: 6px;
+        }
+
+        button {
+            border: none;
+            padding: 10px 14px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            margin: 3px;
+        }
+
+        .btn-tambah {
+            background: #1d3a7c;
+        }
+
+        .btn-kurangi {
+            background: #d97706;
+        }
+
+        .success {
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 15px;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 15px;
+        }
+
+        .habis {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .tersedia {
+            color: #15803d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>Kelola Stok Buku</h2>
+
+    <nav>
+        <a th:href="@{/}">Dashboard</a>
+        <a th:href="@{/buku}">Data Buku</a>
+        <a th:href="@{/anggota}">Data Anggota</a>
+        <a th:href="@{/pinjam}">Peminjaman</a>
+        <a th:href="@{/stok}">Kelola Stok</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <div class="card">
+        <h3>Pengelolaan Persediaan Buku</h3>
+        <p>
+            Pustakawan dapat menambahkan atau mengurangi jumlah
+            persediaan buku melalui halaman ini.
+        </p>
+
+        <div th:if="${pesanSukses}" class="success"
+             th:text="${pesanSukses}"></div>
+
+        <div th:if="${pesanError}" class="error"
+             th:text="${pesanError}"></div>
+    </div>
+
+    <div class="card">
+        <h3>Daftar Stok Buku</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Buku</th>
+                    <th>Judul Buku</th>
+                    <th>Stok Saat Ini</th>
+                    <th>Status</th>
+                    <th>Kelola Stok</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="buku : ${daftarBuku}">
+                    <td th:text="${buku.idBuku}"></td>
+
+                    <td th:text="${buku.judul}"></td>
+
+                    <td th:text="${buku.stok}"></td>
+
+                    <td>
+                        <span th:if="${buku.stok > 0}"
+                              class="tersedia">Tersedia</span>
+
+                        <span th:if="${buku.stok == 0}"
+                              class="habis">Habis</span>
+                    </td>
+
+                    <td>
+                        <form th:action="@{/stok/tambah}" method="post"
+                              style="display:inline-block;">
+                            <input type="hidden" name="idBuku"
+                                   th:value="${buku.idBuku}">
+
+                            <input type="number" name="jumlah"
+                                   min="1" placeholder="Jumlah"
+                                   required>
+
+                            <button type="submit" class="btn-tambah">
+                                Tambah
+                            </button>
+                        </form>
+
+                        <form th:action="@{/stok/kurangi}" method="post"
+                              style="display:inline-block;">
+                            <input type="hidden" name="idBuku"
+                                   th:value="${buku.idBuku}">
+
+                            <input type="number" name="jumlah"
+                                   min="1" th:max="${buku.stok}"
+                                   placeholder="Jumlah"
+                                   required>
+
+                            <button type="submit" class="btn-kurangi">
+                                Kurangi
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(daftarBuku)}">
+                    <td colspan="5" style="text-align:center;">
+                        Belum ada data buku.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
