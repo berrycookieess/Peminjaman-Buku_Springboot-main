@@ -1,0 +1,31 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bukti Peminjaman</title>
+</head>
+<body>
+
+    <h1>Bukti Peminjaman Buku</h1>
+
+    <p>ID Transaksi:
+        <span th:text="${bukti.idTransaksi}"></span>
+    </p>
+
+    <p>Nama Anggota:
+        <span th:text="${bukti.namaAnggota}"></span>
+    </p>
+
+    <p>Judul Buku:
+        <span th:text="${bukti.judulBuku}"></span>
+    </p>
+
+    <p>Tanggal Pinjam:
+        <span th:text="${bukti.tanggalPinjam}"></span>
+    </p>
+
+    <a th:href="@{/pinjam}">Kembali</a>
+
+</body>
+</html>
