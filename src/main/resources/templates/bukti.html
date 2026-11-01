@@ -3,29 +3,229 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Bukti Peminjaman</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bukti Peminjaman - Perpustakaan</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6fa;
+            color: #263445;
+        }
+
+        header {
+            background: #1d3a7c;
+            color: white;
+            padding: 24px 40px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        main {
+            padding: 40px;
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .receipt {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #00000010;
+        }
+
+        .receipt-header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px dashed #dce3ef;
+        }
+
+        .receipt-header h2 {
+            color: #1d3a7c;
+            margin-bottom: 8px;
+        }
+
+        .receipt-header p {
+            color: #64748b;
+            margin: 0;
+        }
+
+        .success {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 8px 16px;
+            background: #e8f5ec;
+            color: #237a42;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .details {
+            margin-top: 25px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 16px 0;
+            border-bottom: 1px solid #e5eaf2;
+        }
+
+        .detail-row span:first-child {
+            color: #64748b;
+        }
+
+        .detail-row span:last-child {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: #1d3a7c;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #eef2f8;
+            color: #1d3a7c;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 22px 20px;
+            }
+
+            main {
+                padding: 24px 16px;
+            }
+
+            .receipt {
+                padding: 22px;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 7px;
+            }
+
+            .detail-row span:last-child {
+                text-align: left;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            header, .actions {
+                display: none;
+            }
+
+            main {
+                padding: 0;
+            }
+
+            .receipt {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>Bukti Peminjaman Buku</h1>
+<header>
+    <h1>Perpustakaan</h1>
+    <p>Sistem Informasi Manajemen Perpustakaan</p>
+</header>
 
-    <p>ID Transaksi:
-        <span th:text="${bukti.idTransaksi}"></span>
-    </p>
+<main>
 
-    <p>Nama Anggota:
-        <span th:text="${bukti.namaAnggota}"></span>
-    </p>
+    <section class="receipt">
 
-    <p>Judul Buku:
-        <span th:text="${bukti.judulBuku}"></span>
-    </p>
+        <div class="receipt-header">
+            <h2>Bukti Peminjaman Buku</h2>
+            <p>Transaksi peminjaman berhasil dicatat.</p>
+            <span class="success">Peminjaman Berhasil</span>
+        </div>
 
-    <p>Tanggal Pinjam:
-        <span th:text="${bukti.tanggalPinjam}"></span>
-    </p>
+        <div class="details">
 
-    <a th:href="@{/pinjam}">Kembali</a>
+            <div class="detail-row">
+                <span>ID Transaksi</span>
+                <span th:text="${bukti.idTransaksi}">TR001</span>
+            </div>
+
+            <div class="detail-row">
+                <span>Nama Anggota</span>
+                <span th:text="${bukti.namaAnggota}">Nama Anggota</span>
+            </div>
+
+            <div class="detail-row">
+                <span>Judul Buku</span>
+                <span th:text="${bukti.judulBuku}">Judul Buku</span>
+            </div>
+
+            <div class="detail-row">
+                <span>Tanggal Pinjam</span>
+                <span th:text="${bukti.tanggalPinjam}">Tanggal</span>
+            </div>
+
+        </div>
+
+        <div class="actions">
+            <a th:href="@{/pinjam}" class="btn btn-primary">
+                Pinjam Buku Lagi
+            </a>
+
+            <a th:href="@{/}" class="btn btn-secondary">
+                Kembali ke Dashboard
+            </a>
+
+            <button onclick="window.print()" class="btn btn-secondary">
+                Cetak Bukti
+            </button>
+        </div>
+
+    </section>
+
+</main>
 
 </body>
 </html>

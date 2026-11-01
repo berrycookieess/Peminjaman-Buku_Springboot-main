@@ -1,24 +1,235 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    
-    <body>
-        <h1> Form Buku</h1>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Buku - Perpustakaan</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6fa;
+            color: #263445;
+        }
+
+        header {
+            background-color: #1d3a7c;
+            color: white;
+            padding: 24px 8%;
+        }
+
+        header h1 {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        nav {
+            background-color: white;
+            padding: 15px 8%;
+            display: flex;
+            gap: 28px;
+            border-bottom: 1px solid #e5e9f0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #526176;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #1d3a7c;
+        }
+
+        main {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .page-heading {
+            margin-bottom: 24px;
+        }
+
+        .page-heading h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #778397;
+            font-size: 14px;
+        }
+
+        .form-card {
+            background-color: white;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(29, 58, 124, 0.06);
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 9px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #dce2ec;
+            border-radius: 7px;
+            font-size: 14px;
+            color: #263445;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #1d3a7c;
+            box-shadow: 0 0 0 3px rgba(29, 58, 124, 0.08);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 20px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-cancel {
+            background-color: #eef1f6;
+            color: #526176;
+        }
+
+        .btn-submit {
+            background-color: #1d3a7c;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #142c60;
+        }
+
+        .btn-cancel:hover {
+            background-color: #e1e6ef;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 22px 6%;
+            }
+
+            nav {
+                padding: 14px 6%;
+                gap: 18px;
+                flex-wrap: wrap;
+            }
+
+            main {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Perpustakaan</h1>
+    <p>Sistem Informasi Manajemen Perpustakaan</p>
+</header>
+
+<nav>
+    <a href="/">Dashboard</a>
+    <a href="/buku" class="active">Data Buku</a>
+    <a href="/anggota">Data Anggota</a>
+    <a href="/pinjam">Peminjaman</a>
+</nav>
+
+<main>
+    <div class="page-heading">
+        <h2>Tambah Buku</h2>
+        <p>Masukkan informasi buku baru ke dalam sistem perpustakaan.</p>
+    </div>
+
+    <div class="form-card">
         <form th:action="@{/buku}" method="post">
-            <table>
-                <tr><td>Id</td><td>:</td><td><input name="idBuku" placeholder="ID" required></td></tr>
-                <tr><td>Judul</td><td>:</td><td><input name="judul" placeholder="Judul" required></td></tr>
-                <tr><td>Stok</td><td>:</td><td><input name="stok" type="number" min="0" value="1"></td></tr>
-                <tr><td><button type="cancel">Batal</button></td><td></td><td><button type="submit">Simpan</button></td></tr>
-                
-            </table>
-            
-           
-            
-            
+
+            <div class="form-group">
+                <label for="idBuku">ID Buku</label>
+                <input
+                    type="text"
+                    id="idBuku"
+                    name="idBuku"
+                    placeholder="Masukkan ID buku"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="judul">Judul Buku</label>
+                <input
+                    type="text"
+                    id="judul"
+                    name="judul"
+                    placeholder="Masukkan judul buku"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="stok">Jumlah Stok</label>
+                <input
+                    type="number"
+                    id="stok"
+                    name="stok"
+                    min="0"
+                    value="1"
+                    required>
+            </div>
+
+            <div class="form-actions">
+                <a href="/buku" class="btn btn-cancel">Batal</a>
+                <button type="submit" class="btn btn-submit">
+                    Simpan Buku
+                </button>
+            </div>
+
         </form>
-    </body>
+    </div>
+</main>
+
+</body>
 </html>

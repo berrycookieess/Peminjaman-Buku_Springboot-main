@@ -3,36 +3,255 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Pinjam Buku</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peminjaman Buku - Perpustakaan</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6fa;
+            color: #263445;
+        }
+
+        header {
+            background: #1d3a7c;
+            color: white;
+            padding: 24px 40px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: #1d3a7c;
+            font-weight: bold;
+            padding: 10px 16px;
+            background: white;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .navigation a:hover,
+        .navigation a.active {
+            background: #1d3a7c;
+            color: white;
+        }
+
+        .form-card {
+            background: white;
+            max-width: 700px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #00000010;
+        }
+
+        .form-card h2 {
+            color: #1d3a7c;
+            margin-top: 0;
+        }
+
+        .description {
+            color: #64748b;
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 9px;
+            font-weight: bold;
+            color: #263445;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #dce3ed;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #263445;
+            background: white;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #1d3a7c;
+            box-shadow: 0 0 0 3px #1d3a7c15;
+        }
+
+        .hint {
+            display: block;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .message {
+            padding: 13px 16px;
+            margin-bottom: 22px;
+            border-radius: 8px;
+            background: #eef3ff;
+            color: #1d3a7c;
+            line-height: 1.5;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        button, .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        button {
+            background: #1d3a7c;
+            color: white;
+        }
+
+        button:hover {
+            background: #152d61;
+        }
+
+        .btn-secondary {
+            background: #eef2f8;
+            color: #1d3a7c;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e7f2;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 22px 20px;
+            }
+
+            main {
+                padding: 24px 16px;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>Form Peminjaman Buku</h1>
+<header>
+    <h1>Perpustakaan</h1>
+    <p>Sistem Informasi Manajemen Perpustakaan</p>
+</header>
 
-    <p th:if="${pesan}" th:text="${pesan}"></p>
+<main>
 
-    <form th:action="@{/pinjam}" method="post">
+    <h2>Peminjaman Buku</h2>
+    <p>Isi formulir berikut untuk melakukan transaksi peminjaman buku.</p>
 
-        <label>ID Anggota:</label>
-        <input type="text" name="idAnggota" required>
+    <nav class="navigation">
+        <a th:href="@{/}">Dashboard</a>
+        <a th:href="@{/buku}">Data Buku</a>
+        <a th:href="@{/anggota}">Data Anggota</a>
+        <a th:href="@{/pinjam}" class="active">Peminjaman</a>
+    </nav>
 
-        <br><br>
+    <section class="form-card">
 
-        <label>Pilih Buku:</label>
-        <select name="idBuku" required>
-            <option value="">-- Pilih Buku --</option>
+        <h2>Form Peminjaman</h2>
 
-            <option th:each="buku : ${daftarBuku}"
-                    th:value="${buku.idBuku}"
-                    th:text="${buku.judul + ' (Stok: ' + buku.stok + ')'}">
-            </option>
-        </select>
+        <p class="description">
+            Masukkan ID anggota dan pilih buku yang ingin dipinjam.
+            Pastikan data yang dimasukkan sudah benar.
+        </p>
 
-        <br><br>
+        <p class="message"
+           th:if="${pesan}"
+           th:text="${pesan}">
+        </p>
 
-        <button type="submit">Pinjam Buku</button>
+        <form th:action="@{/pinjam}" method="post">
 
-    </form>
+            <div class="form-group">
+                <label for="idAnggota">ID Anggota</label>
+                <input
+                    type="text"
+                    id="idAnggota"
+                    name="idAnggota"
+                    placeholder="Contoh: A001"
+                    required>
+                <span class="hint">
+                    Masukkan ID anggota yang terdaftar.
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label for="idBuku">Pilih Buku</label>
+
+                <select id="idBuku" name="idBuku" required>
+                    <option value="">-- Pilih Buku --</option>
+
+                    <option th:each="buku : ${daftarBuku}"
+                            th:value="${buku.idBuku}"
+                            th:text="${buku.judul + ' (Stok: ' + buku.stok + ')'}">
+                    </option>
+                </select>
+
+                <span class="hint">
+                    Pilih buku berdasarkan judul dan ketersediaan stok.
+                </span>
+            </div>
+
+            <div class="actions">
+                <button type="submit">Pinjam Buku</button>
+
+                <a th:href="@{/}" class="btn btn-secondary">
+                    Kembali
+                </a>
+            </div>
+
+        </form>
+
+    </section>
+
+</main>
 
 </body>
 </html>

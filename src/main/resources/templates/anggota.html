@@ -1,26 +1,192 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Daftar Anggota</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Anggota - Perpustakaan</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f4f6fa;
+            color: #263445;
+        }
+
+        header {
+            background-color: #1d3a7c;
+            color: white;
+            padding: 24px 8%;
+        }
+
+        header h1 {
+            font-size: 26px;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        nav {
+            background-color: white;
+            padding: 15px 8%;
+            display: flex;
+            gap: 28px;
+            border-bottom: 1px solid #e5e9f0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #526176;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #1d3a7c;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        .page-heading {
+            margin-bottom: 24px;
+        }
+
+        .page-heading h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .page-heading p {
+            color: #778397;
+            font-size: 14px;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 3px 15px rgba(29, 58, 124, 0.06);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f6fa;
+            color: #526176;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 16px;
+        }
+
+        td {
+            padding: 17px 16px;
+            border-bottom: 1px solid #edf0f5;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background-color: #fafbfe;
+        }
+
+        .member-id {
+            color: #1d3a7c;
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 35px 15px;
+            color: #778397;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 22px 6%;
+            }
+
+            nav {
+                padding: 14px 6%;
+                gap: 18px;
+                flex-wrap: wrap;
+            }
+
+            main {
+                margin: 28px auto;
+                padding: 0 16px;
+            }
+
+            .table-card {
+                padding: 18px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-<h1>Daftar Anggota</h1>
 
-<p th:if="${#lists.isEmpty(daftarAnggota)}">Belum ada anggota.</p>
+<header>
+    <h1>Perpustakaan</h1>
+    <p>Sistem Informasi Manajemen Perpustakaan</p>
+</header>
 
-<table border="1" th:unless="${#lists.isEmpty(daftarAnggota)}">
-    <tr><th>ID</th><th>Nama</th><th>Batas Pinjam</th></tr>
-    <tr th:each="a : ${daftarAnggota}">
-        <td th:text="${a.idAnggota}">A001</td>
-        <td th:text="${a.nama}">Nama</td>
-        <td th:text="${a.batasPinjam}">0</td>
-    </tr>
-</table>
+<nav>
+    <a href="/">Dashboard</a>
+    <a href="/buku">Data Buku</a>
+    <a href="/anggota" class="active">Data Anggota</a>
+    <a href="/pinjam">Peminjaman</a>
+</nav>
 
-<a th:href="@{/anggota}">← Ke Daftar Anggota</a>
-<a th:href="@{/buku/tambah}"><h2>Tambah Buku</h2></a>
-<a th:href="@{/anggota}">Lihat Anggota</a>
+<main>
+    <div class="page-heading">
+        <h2>Data Anggota</h2>
+        <p>Informasi anggota yang terdaftar dalam sistem perpustakaan.</p>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Anggota</th>
+                    <th>Nama Anggota</th>
+                    <th>Batas Peminjaman</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="anggota : ${daftarAnggota}">
+                    <td class="member-id" th:text="${anggota.idAnggota}"></td>
+                    <td th:text="${anggota.nama}"></td>
+                    <td th:text="${anggota.batasPinjam}"></td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(daftarAnggota)}">
+                    <td colspan="3" class="empty-state">
+                        Belum ada data anggota yang terdaftar.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
 
 </body>
 </html>

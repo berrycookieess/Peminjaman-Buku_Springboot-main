@@ -1,27 +1,210 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Daftar Buku</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Buku - Perpustakaan</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f4f6fa;
+            color: #263445;
+        }
+
+        header {
+            background: #1d3a7c;
+            color: white;
+            padding: 24px 40px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        main {
+            padding: 40px;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: #1d3a7c;
+            font-weight: bold;
+            padding: 10px 16px;
+            background: white;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .navigation a:hover,
+        .navigation a.active {
+            background: #1d3a7c;
+            color: white;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px #00000010;
+            overflow-x: auto;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            color: #1d3a7c;
+            margin: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 18px;
+            background: #1d3a7c;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background: #152d61;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px 16px;
+            text-align: left;
+            border-bottom: 1px solid #e5eaf2;
+        }
+
+        th {
+            background: #f4f6fa;
+            color: #1d3a7c;
+        }
+
+        tbody tr:hover td {
+            background: #f8faff;
+        }
+
+        .stock {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #eaf1ff;
+            color: #1d3a7c;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .empty {
+            color: #64748b;
+            padding: 15px 0;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 22px 20px;
+            }
+
+            main {
+                padding: 24px 16px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    
-<h1>Daftar Buku</h1>
 
+<header>
+    <h1>Perpustakaan</h1>
+    <p>Sistem Informasi Manajemen Perpustakaan</p>
+</header>
 
+<main>
 
-<table border="1">
-    <tr><th>ID</th><th>Judul</th><th>Stok</th></tr>
-    <tr th:each="b : ${daftarBuku}">
-        <td th:text="${b.idBuku}">B001</td>
-        <td th:text="${b.judul}">Judul buku</td>
-        <td th:text="${b.stok}">0</td>
-    </tr>
-</table>
+    <h2>Data Buku</h2>
+    <p>Kelola koleksi buku dan informasi ketersediaan stok.</p>
 
+    <nav class="navigation">
+        <a th:href="@{/}">Dashboard</a>
+        <a th:href="@{/buku}" class="active">Data Buku</a>
+        <a th:href="@{/anggota}">Data Anggota</a>
+        <a th:href="@{/pinjam}">Peminjaman</a>
+    </nav>
 
-<h2>
-<a th:href="@{/buku/tambah}"><h2>Tambah Buku</h2></a>
-<a th:href="@{/anggota}">Lihat Anggota</a>
+    <section class="card">
+
+        <div class="card-header">
+            <h2>Daftar Buku</h2>
+
+            <a th:href="@{/buku/tambah}" class="btn">
+                + Tambah Buku
+            </a>
+        </div>
+
+        <p class="empty" th:if="${#lists.isEmpty(daftarBuku)}">
+            Belum ada buku yang tersedia.
+        </p>
+
+        <table th:unless="${#lists.isEmpty(daftarBuku)}">
+            <thead>
+                <tr>
+                    <th>ID Buku</th>
+                    <th>Judul Buku</th>
+                    <th>Stok</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="b : ${daftarBuku}">
+                    <td th:text="${b.idBuku}">B001</td>
+                    <td th:text="${b.judul}">Judul buku</td>
+                    <td>
+                        <span class="stock" th:text="${b.stok}">0</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </section>
+
+</main>
+
 </body>
 </html>
